@@ -46,7 +46,7 @@ public class TaskManager {
     //print tasks
     public void printTasks() {
         if (tasks.isEmpty()) {
-            System.out.println(" Your task list is empty. Let's add something to get started! ");
+            System.out.println("Your task list is empty. Let's add something to get started! ");
         } else {
             System.out.println("Here are the tasks in your list:");
             for (int i = 0; i < tasks.size(); i++) {
@@ -59,12 +59,12 @@ public class TaskManager {
         if (taskNumber >= 0 && taskNumber < tasks.size()) {
             tasks.get(taskNumber).taskDone();
 
-            System.out.println(" Great job! I've marked this task as done:");
+            System.out.println("Great job! I've marked this task as done:");
             System.out.println("   " + tasks.get(taskNumber));
 
 
         } else {
-            System.out.println(" Oops! You do not have that task. Try again!");
+            System.out.println("Oops! You do not have that task. Try again!");
         }
     }
     //unmark tasks
@@ -76,7 +76,7 @@ public class TaskManager {
             System.out.println("   " + tasks.get(taskNumber));
 
         } else {
-            System.out.println(" Oops! You do not have that task. Try again!");
+            System.out.println("Oops! You do not have that task. Try again!");
         }
     }
 }
