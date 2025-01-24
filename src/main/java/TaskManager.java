@@ -7,19 +7,21 @@ public class TaskManager {
     }
 
     //add task
-    public void addTask(String input) {
+    public void addTask(String input) throws BryanException {
 
         Tasks task = null;
         if (input.startsWith("todo ")) {
             String information = input.substring(5).trim();
+            if (information.isEmpty()) {
+                throw new BryanException("Oops! Empty description");
+            }
             task = new Todo(information);
         }
         else if (input.startsWith("deadline ")) {
             String details = input.substring(9).trim();
             String[] parts = details.split(" /by ", 2);
             if (parts.length < 2) {
-                System.out.println("Invalid deadline format. Use: deadline <description> /by <time>");
-                return;
+                throw new BryanException("Incorrect deadline format. Use: deadline <description> /by <time>");
             }
             task = new Deadline(parts[0].trim(), parts[1].trim());
         }
@@ -27,15 +29,13 @@ public class TaskManager {
             String details = input.substring(6).trim();
             String[] parts = details.split(" /from ", 2);
             if (parts.length < 2 || !parts[1].contains(" /to ")) {
-                System.out.println("Invalid event format. Use: event <description> /from <start> /to <end>");
-                return;
+                throw new BryanException("Incorrect event format. Use: event <description> /from <start> /to <end>");
             }
             String[] timeParts = parts[1].split(" /to ", 2);
             task = new Event(parts[0].trim(), timeParts[0].trim(), timeParts[1].trim());
         }
         else {
-            System.out.println("Format is wrong. Please retry");
-            return;
+            throw new BryanException("Empty description. Please specify what tasks you want to do");
         }
 
         tasks.add(task);

@@ -29,7 +29,13 @@ public class Bryan {
                     System.out.println("Error, use unmark <task number>'.");
                 }
             } else {
-                taskManager.addTask(input);
+                try {
+                    taskManager.addTask(input);
+                }
+                catch (BryanException e) {
+                    System.out.println(e.getMessage());
+                }
+
             }
         }
         sc.close();
