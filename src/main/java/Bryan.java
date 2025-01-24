@@ -28,7 +28,15 @@ public class Bryan {
                 } catch (Exception e) {
                     System.out.println("Error, use unmark <task number>'.");
                 }
-            } else {
+            } else if (input.startsWith("delete ")) {
+                try {
+                    int taskNumber = Integer.parseInt(input.split(" ")[1]) - 1;
+                    taskManager.deleteTask(taskNumber);
+                } catch (Exception e) {
+                    System.out.println("Error, use delete <task number>.");
+                }
+            }
+            else {
                 try {
                     taskManager.addTask(input);
                 }

@@ -79,4 +79,18 @@ public class TaskManager {
             System.out.println("Oops! You do not have that task. Try again!");
         }
     }
+    //delete task
+    public void deleteTask(int taskNumber) {
+        if (taskNumber >= 0 && taskNumber < tasks.size()) {
+            Tasks deleteTask = tasks.get(taskNumber);
+            tasks.remove(taskNumber);
+            System.out.println("Noted. I've removed this task:");
+            System.out.println("   " + deleteTask);
+            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+
+        }
+        else {
+            System.out.println("Oops! You do not have that task. Please select a task from the list!");
+        }
+    }
 }
