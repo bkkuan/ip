@@ -19,14 +19,14 @@ public class Bryan {
                     int taskNumber = Integer.parseInt(input.split(" ")[1]) - 1;
                     taskManager.taskscompleted(taskNumber);
                 } catch (Exception e) {
-                    System.out.println(" Error, use mark followed by number");
+                    System.out.println(" Error, use mark <task number>'.");
                 }
             } else if (input.startsWith("unmark ")) {
                 try {
                     int number = Integer.parseInt(input.split(" ")[1]) - 1;
                     taskManager.tasksnotcompleted(number);
                 } catch (Exception e) {
-                    System.out.println(" Error, use unmark followed by number");
+                    System.out.println(" Error, use unmark <task number>'.");
                 }
             } else {
                 taskManager.addTask(input);
