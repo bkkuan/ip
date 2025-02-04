@@ -1,3 +1,4 @@
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class TaskManager {
@@ -37,7 +38,15 @@ public class TaskManager {
     private Deadline createDeadline(String input) throws BryanException {
         String[] parts = input.substring(9).split("/by", 2);
         if (parts.length < 2) throw new BryanException("Invalid deadline format");
-        return new Deadline(parts[0].trim(), parts[1].trim());
+
+        String description = parts[0].trim();
+        String dateString = parts[1].trim();
+
+        try {
+            return new Deadline(description, dateString);
+        } catch (DateTimeParseException e) {
+            throw new BryanException("Invalid date format. Use yyyy-mm-dd");
+        }
     }
 
     private Event createEvent(String input) throws BryanException {
