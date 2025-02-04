@@ -1,10 +1,9 @@
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Bryan {
     private static final String FILE_PATH = "data/bryan.txt";
     private static final Storage storage = new Storage(FILE_PATH);
-    private static final TaskManager taskManager = initializeTaskManager();
+    private static final TaskManager taskManager = new TaskManager(storage.load());
     private static final Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -12,15 +11,6 @@ public class Bryan {
         runCommandLoop();
         goodbye();
         sc.close();
-    }
-
-    private static TaskManager initializeTaskManager() {
-        try {
-            return new TaskManager(storage.load());
-        } catch (IOException e) {
-            System.out.println("Error loading tasks. Starting fresh.");
-            return new TaskManager();
-        }
     }
 
     private static void runCommandLoop() {
@@ -44,30 +34,30 @@ public class Bryan {
             } else {
                 handleAddCommand(input);
             }
-        } catch (BryanException | IOException | NumberFormatException e) {
+        } catch (BryanException | NumberFormatException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
 
-    private static void handleMarkCommand(String input) throws IOException {
+    private static void handleMarkCommand(String input) {
         int taskNumber = parseTaskNumber(input);
         taskManager.markTask(taskNumber);
         storage.save(taskManager.getTasks());
     }
 
-    private static void handleUnmarkCommand(String input) throws IOException {
+    private static void handleUnmarkCommand(String input) {
         int taskNumber = parseTaskNumber(input);
         taskManager.unmarkTask(taskNumber);
         storage.save(taskManager.getTasks());
     }
 
-    private static void handleDeleteCommand(String input) throws IOException {
+    private static void handleDeleteCommand(String input) {
         int taskNumber = parseTaskNumber(input);
         taskManager.deleteTask(taskNumber);
         storage.save(taskManager.getTasks());
     }
 
-    private static void handleAddCommand(String input) throws BryanException, IOException {
+    private static void handleAddCommand(String input) throws BryanException {
         taskManager.addTask(input);
         storage.save(taskManager.getTasks());
     }
