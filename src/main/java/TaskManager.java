@@ -1,96 +1,96 @@
 import java.util.ArrayList;
 
 public class TaskManager {
-    private ArrayList<Tasks> tasks;
+    private final ArrayList<Tasks> tasks;
+
     public TaskManager() {
-        tasks = new ArrayList<>();
+        this(new ArrayList<>());
     }
 
-    //add task
+    public TaskManager(ArrayList<Tasks> tasks) {
+        this.tasks = tasks;
+    }
+
+    public ArrayList<Tasks> getTasks() {
+        return tasks;
+    }
+
     public void addTask(String input) throws BryanException {
-
-        Tasks task = null;
-        if (input.startsWith("todo ")) {
-            String information = input.substring(5).trim();
-            if (information.isEmpty()) {
-                throw new BryanException("Oops! Empty description");
-            }
-            task = new Todo(information);
-        }
-        else if (input.startsWith("deadline ")) {
-            String details = input.substring(9).trim();
-            String[] parts = details.split(" /by ", 2);
-            if (parts.length < 2) {
-                throw new BryanException("Incorrect deadline format. Use: deadline <description> /by <time>");
-            }
-            task = new Deadline(parts[0].trim(), parts[1].trim());
-        }
-        else if (input.startsWith("event ")) {
-            String details = input.substring(6).trim();
-            String[] parts = details.split(" /from ", 2);
-            if (parts.length < 2 || !parts[1].contains(" /to ")) {
-                throw new BryanException("Incorrect event format. Use: event <description> /from <start> /to <end>");
-            }
-            String[] timeParts = parts[1].split(" /to ", 2);
-            task = new Event(parts[0].trim(), timeParts[0].trim(), timeParts[1].trim());
-        }
-        else {
-            throw new BryanException("Empty description. Please specify what tasks you want to do");
-        }
-
+        Tasks task = createTask(input);
         tasks.add(task);
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        printAddConfirmation(task);
     }
-    //print tasks
+
+    private Tasks createTask(String input) throws BryanException {
+        if (input.startsWith("todo ")) return createTodo(input);
+        if (input.startsWith("deadline ")) return createDeadline(input);
+        if (input.startsWith("event ")) return createEvent(input);
+        throw new BryanException("Empty description. Please specify a task");
+    }
+
+    private Todo createTodo(String input) throws BryanException {
+        String description = input.substring(5).trim();
+        validateDescription(description);
+        return new Todo(description);
+    }
+
+    private Deadline createDeadline(String input) throws BryanException {
+        String[] parts = input.substring(9).split("/by", 2);
+        if (parts.length < 2) throw new BryanException("Invalid deadline format");
+        return new Deadline(parts[0].trim(), parts[1].trim());
+    }
+
+    private Event createEvent(String input) throws BryanException {
+        String[] parts = input.substring(6).split("/from|/to");
+        if (parts.length < 3) throw new BryanException("Invalid event format");
+        return new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
+    }
+
     public void printTasks() {
         if (tasks.isEmpty()) {
-            System.out.println("Your task list is empty. Let's add something to get started! ");
-        } else {
-            System.out.println("Here are the tasks in your list:");
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i + 1) + ". " + tasks.get(i));
-            }
+            System.out.println("Your task list is empty. Let's get started!");
+            return;
+        }
+
+        System.out.println("Here are your tasks:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.printf("%d. %s\n", i + 1, tasks.get(i));
         }
     }
-    //mark tasks done
-    public void taskscompleted(int taskNumber) {
-        if (taskNumber >= 0 && taskNumber < tasks.size()) {
-            tasks.get(taskNumber).taskDone();
 
-            System.out.println("Great job! I've marked this task as done:");
-            System.out.println("   " + tasks.get(taskNumber));
+    public void markTask(int index) {
+        validateIndex(index);
+        tasks.get(index).taskDone();
+        System.out.printf("Marked task %d as done:\n  %s\n", index + 1, tasks.get(index));
+    }
 
+    public void unmarkTask(int index) {
+        validateIndex(index);
+        tasks.get(index).taskNotDone();
+        System.out.printf("Marked task %d as not done:\n  %s\n", index + 1, tasks.get(index));
+    }
 
-        } else {
-            System.out.println("Oops! You do not have that task. Try again!");
+    public void deleteTask(int index) {
+        validateIndex(index);
+        Tasks removed = tasks.remove(index);
+        System.out.printf("Removed task %d:\n  %s\nNow you have %d tasks\n",
+                index + 1, removed, tasks.size());
+    }
+
+    private void validateDescription(String description) throws BryanException {
+        if (description.isEmpty()) {
+            throw new BryanException("Task description cannot be empty");
         }
     }
-    //unmark tasks
-    public void tasksnotcompleted(int taskNumber) {
-        if (taskNumber >= 0 && taskNumber < tasks.size()) {
-            tasks.get(taskNumber).taskNotDone();
 
-            System.out.println("OK, I've marked this task as not done yet:");
-            System.out.println("   " + tasks.get(taskNumber));
-
-        } else {
-            System.out.println("Oops! You do not have that task. Try again!");
+    private void validateIndex(int index) {
+        if (index < 0 || index >= tasks.size()) {
+            throw new IllegalArgumentException("Invalid task number");
         }
     }
-    //delete task
-    public void deleteTask(int taskNumber) {
-        if (taskNumber >= 0 && taskNumber < tasks.size()) {
-            Tasks deleteTask = tasks.get(taskNumber);
-            tasks.remove(taskNumber);
-            System.out.println("Noted. I've removed this task:");
-            System.out.println("   " + deleteTask);
-            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
 
-        }
-        else {
-            System.out.println("Oops! You do not have that task. Please select a task from the list!");
-        }
+    private void printAddConfirmation(Tasks task) {
+        System.out.printf("Added task:\n  %s\nNow you have %d tasks\n",
+                task, tasks.size());
     }
 }

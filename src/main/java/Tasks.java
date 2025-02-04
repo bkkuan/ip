@@ -19,6 +19,10 @@ public class Tasks {
         return isDone ? "[X]" : "[ ]";
     }
 
+    public String toFileFormat() {
+        throw new UnsupportedOperationException("toFileFormat not implemented");
+    }
+
     @Override
     public String toString() {
         return getStatusIcon() + " " + information;
