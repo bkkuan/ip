@@ -1,5 +1,10 @@
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class Storage {
@@ -16,7 +21,7 @@ public class Storage {
 
             for (String line : Files.readAllLines(filePath)) {
                 String[] parts = line.split(" \\| ");
-                if (parts.length < 3) continue;
+                if (parts.length < 4) continue;
 
                 boolean isDone = parts[1].equals("1");
                 Tasks task = null;
@@ -25,7 +30,7 @@ public class Storage {
                         task = new Todo(parts[2]);
                         break;
                     case "D":
-                        if (parts.length >= 4) task = new Deadline(parts[2], parts[3]);
+                        if (parts.length >= 4) task = createDeadlineFromParts(parts);
                         break;
                     case "E":
                         if (parts.length >= 5) task = new Event(parts[2], parts[3], parts[4]);
@@ -41,6 +46,25 @@ public class Storage {
             System.out.println("Error loading tasks.");
         }
         return tasks;
+    }
+
+    private Deadline createDeadlineFromParts(String[] parts) {
+        String dateString = parts[3];
+        LocalDate date;
+
+        try {
+            date = LocalDate.parse(dateString);
+        } catch (DateTimeParseException e1) {
+            try {
+                DateTimeFormatter oldFormat = DateTimeFormatter.ofPattern("MMMM d['th']['st']['nd']['rd']");
+                date = LocalDate.parse(dateString, oldFormat);
+            } catch (DateTimeParseException e2) {
+                System.out.println("Invalid date format: " + dateString + ". Using today's date.");
+                date = LocalDate.now();
+            }
+        }
+
+        return new Deadline(parts[2], date);
     }
 
     public void save(ArrayList<Tasks> tasks) {
