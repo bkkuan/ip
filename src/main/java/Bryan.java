@@ -1,76 +1,39 @@
-import java.util.Scanner;
+import bryan.command.Command;
+import bryan.exception.BryanException;
+import bryan.parser.Parser;
+import bryan.storage.Storage;
+import bryan.taskmanager.TaskManager;
+import bryan.ui.Ui;
+
+;
 
 public class Bryan {
-    private static final String FILE_PATH = "data/bryan.txt";
-    private static final Storage storage = new Storage(FILE_PATH);
-    private static final TaskManager taskManager = new TaskManager(storage.load());
-    private static final Scanner sc = new Scanner(System.in);
+    private final Storage storage;
+    private final TaskManager taskManager;
+    private final Ui ui;
+
+    public Bryan(String filePath) {
+        ui = new Ui();
+        storage = new Storage(filePath);
+        taskManager = new TaskManager(storage.load());
+    }
+
+    public void run() {
+        ui.showWelcome();
+        boolean isExit = false;
+        while (!isExit) {
+            try {
+                String input = ui.readCommand();
+                Command command = Parser.parse(input);
+                command.execute(taskManager, ui, storage);
+                isExit = command.isExit();
+            } catch (BryanException e) {
+                ui.showError(e.getMessage());
+            }
+        }
+    }
 
     public static void main(String[] args) {
-        welcome();
-        runCommandLoop();
-        goodbye();
-        sc.close();
-    }
-
-    private static void runCommandLoop() {
-        while (true) {
-            String input = sc.nextLine().trim();
-            if (input.equalsIgnoreCase("bye")) break;
-            processInput(input);
-        }
-    }
-
-    private static void processInput(String input) {
-        try {
-            if (input.equalsIgnoreCase("list")) {
-                taskManager.printTasks();
-            } else if (input.startsWith("mark ")) {
-                handleMarkCommand(input);
-            } else if (input.startsWith("unmark ")) {
-                handleUnmarkCommand(input);
-            } else if (input.startsWith("delete ")) {
-                handleDeleteCommand(input);
-            } else {
-                handleAddCommand(input);
-            }
-        } catch (BryanException | NumberFormatException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    private static void handleMarkCommand(String input) {
-        int taskNumber = parseTaskNumber(input);
-        taskManager.markTask(taskNumber);
-        storage.save(taskManager.getTasks());
-    }
-
-    private static void handleUnmarkCommand(String input) {
-        int taskNumber = parseTaskNumber(input);
-        taskManager.unmarkTask(taskNumber);
-        storage.save(taskManager.getTasks());
-    }
-
-    private static void handleDeleteCommand(String input) {
-        int taskNumber = parseTaskNumber(input);
-        taskManager.deleteTask(taskNumber);
-        storage.save(taskManager.getTasks());
-    }
-
-    private static void handleAddCommand(String input) throws BryanException {
-        taskManager.addTask(input);
-        storage.save(taskManager.getTasks());
-    }
-
-    private static int parseTaskNumber(String input) {
-        return Integer.parseInt(input.split(" ")[1]) - 1;
-    }
-
-    private static void welcome() {
-        System.out.println("Hello! I'm Bryan, your trustworthy support\nWhat can I do for you?");
-    }
-
-    private static void goodbye() {
-        System.out.println("Bye. Hope to see you again soon!");
+        new Bryan("data/bryan.txt").run();
     }
 }
