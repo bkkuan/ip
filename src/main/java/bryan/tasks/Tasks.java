@@ -1,3 +1,5 @@
+package bryan.tasks;
+
 public class Tasks {
     protected String information;
     protected boolean isDone;
