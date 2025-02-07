@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Test class for verifying the functionality of the TaskManager class.
  */
 class TaskManagerTest {
+
     /**
      * Tests adding a valid todo task.
      *
@@ -15,7 +16,7 @@ class TaskManagerTest {
      */
     @Test
     void addTask_validTodo_success() throws BryanException {
-        TaskManager taskManager = new TaskManager();
+        final TaskManager taskManager = new TaskManager();
         taskManager.addTask("todo read book");
         assertEquals(1, taskManager.getTasks().size());
     }
@@ -25,7 +26,8 @@ class TaskManagerTest {
      */
     @Test
     void addTask_invalidTodo_throwsException() {
-        TaskManager taskManager = new TaskManager();
+        final TaskManager taskManager = new TaskManager();
         assertThrows(BryanException.class, () -> taskManager.addTask("todo"));
     }
 }
+

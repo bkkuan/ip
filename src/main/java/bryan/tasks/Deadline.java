@@ -11,24 +11,25 @@ public class Deadline extends Tasks {
     protected LocalDate by;
 
     /**
-     * Constructs a Deadline task with the given description and due date.
+     * Constructs a deadline task with the given description and due date.
      *
      * @param information the task description
-     * @param by          the due date
+     * @param by the due date
      */
-    public Deadline(String information, LocalDate by) {
+    public Deadline(final String information, final LocalDate by) {
         super(information);
         this.by = by;
     }
 
     /**
-     * Constructs a Deadline task with the given description and due date string.
+     * Constructs a deadline task with the given description and due date string.
      *
      * @param information the task description
-     * @param dateString  the due date in string format
+     * @param dateString the due date in string format
      * @throws DateTimeParseException if the date string is invalid
      */
-    public Deadline(String information, String dateString) throws DateTimeParseException {
+    public Deadline(final String information, final String dateString)
+            throws DateTimeParseException {
         super(information);
         this.by = LocalDate.parse(dateString);
     }
@@ -50,8 +51,7 @@ public class Deadline extends Tasks {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " +
-                by.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")";
+        return "[D]" + super.toString() + " (by: "
+                + by.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")";
     }
 }
-

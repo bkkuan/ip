@@ -27,14 +27,14 @@ public class TaskManager {
      *
      * @param tasks the initial list of tasks
      */
-    public TaskManager(ArrayList<Tasks> tasks) {
+    public TaskManager(final ArrayList<Tasks> tasks) {
         this.tasks = tasks;
     }
 
     /**
      * Returns the list of tasks.
      *
-     * @return an ArrayList of tasks
+     * @return an {@code ArrayList} of tasks
      */
     public ArrayList<Tasks> getTasks() {
         return tasks;
@@ -46,8 +46,8 @@ public class TaskManager {
      * @param input the input specifying the task details
      * @throws BryanException if the task description is invalid
      */
-    public void addTask(String input) throws BryanException {
-        Tasks task = createTask(input);
+    public void addTask(final String input) throws BryanException {
+        final Tasks task = createTask(input);
         tasks.add(task);
         printAddConfirmation(task);
     }
@@ -56,60 +56,68 @@ public class TaskManager {
      * Creates a task from the input string.
      *
      * @param input the input string
-     * @return a Tasks object representing the new task
+     * @return a {@code Tasks} object representing the new task
      * @throws BryanException if the input does not specify a valid task
      */
-    private Tasks createTask(String input) throws BryanException {
-        if (input.startsWith("todo ")) return createTodo(input);
-        if (input.startsWith("deadline ")) return createDeadline(input);
-        if (input.startsWith("event ")) return createEvent(input);
+    private Tasks createTask(final String input) throws BryanException {
+        if (input.startsWith("todo ")) {
+            return createTodo(input);
+        }
+        if (input.startsWith("deadline ")) {
+            return createDeadline(input);
+        }
+        if (input.startsWith("event ")) {
+            return createEvent(input);
+        }
         throw new BryanException("Empty description. Please specify a task");
     }
 
     /**
-     * Creates a Todo task.
+     * Creates a {@code Todo} task.
      *
      * @param input the input string
-     * @return a Todo task
+     * @return a {@code Todo} task
      * @throws BryanException if the description is empty
      */
-    private Todo createTodo(String input) throws BryanException {
-        String description = input.substring(5).trim();
+    private Todo createTodo(final String input) throws BryanException {
+        final String description = input.substring(5).trim();
         validateDescription(description);
         return new Todo(description);
     }
 
     /**
-     * Creates a Deadline task.
+     * Creates a {@code Deadline} task.
      *
      * @param input the input string in the format "deadline description /by date"
-     * @return a Deadline task
-     * @throws BryanException if the input format is invalid or date is wrong
+     * @return a {@code Deadline} task
+     * @throws BryanException if the input format is invalid or the date is wrong
      */
-    private Deadline createDeadline(String input) throws BryanException {
-        String[] parts = input.substring(9).split("/by", 2);
-        if (parts.length < 2) throw new BryanException("Invalid deadline format");
-
-        String description = parts[0].trim();
-        String dateString = parts[1].trim();
-
+    private Deadline createDeadline(final String input) throws BryanException {
+        final String[] parts = input.substring(9).split("/by", 2);
+        if (parts.length < 2) {
+            throw new BryanException("Invalid deadline format");
+        }
+        final String description = parts[0].trim();
+        final String dateString = parts[1].trim();
         try {
             return new Deadline(description, dateString);
-        } catch (DateTimeParseException e) {
+        } catch (final DateTimeParseException e) {
             throw new BryanException("Invalid date format. Use yyyy-mm-dd");
         }
     }
 
     /**
-     * Creates an Event task.
+     * Creates an {@code Event} task.
      *
      * @param input the input string in the format "event description /from start /to end"
-     * @return an Event task
+     * @return an {@code Event} task
      * @throws BryanException if the input format is invalid
      */
-    private Event createEvent(String input) throws BryanException {
-        String[] parts = input.substring(6).split("/from|/to");
-        if (parts.length < 3) throw new BryanException("Invalid event format");
+    private Event createEvent(final String input) throws BryanException {
+        final String[] parts = input.substring(6).split("/from|/to");
+        if (parts.length < 3) {
+            throw new BryanException("Invalid event format");
+        }
         return new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
     }
 
@@ -132,7 +140,7 @@ public class TaskManager {
      *
      * @param index the index of the task to mark as done
      */
-    public void markTask(int index) {
+    public void markTask(final int index) {
         validateIndex(index);
         tasks.get(index).taskDone();
         System.out.printf("Marked task %d as done:\n  %s\n", index + 1, tasks.get(index));
@@ -143,7 +151,7 @@ public class TaskManager {
      *
      * @param index the index of the task to unmark
      */
-    public void unmarkTask(int index) {
+    public void unmarkTask(final int index) {
         validateIndex(index);
         tasks.get(index).taskNotDone();
         System.out.printf("Marked task %d as not done:\n  %s\n", index + 1, tasks.get(index));
@@ -154,9 +162,9 @@ public class TaskManager {
      *
      * @param index the index of the task to delete
      */
-    public void deleteTask(int index) {
+    public void deleteTask(final int index) {
         validateIndex(index);
-        Tasks removed = tasks.remove(index);
+        final Tasks removed = tasks.remove(index);
         System.out.printf("Removed task %d:\n  %s\nNow you have %d tasks\n",
                 index + 1, removed, tasks.size());
     }
@@ -167,7 +175,7 @@ public class TaskManager {
      * @param description the task description
      * @throws BryanException if the description is empty
      */
-    private void validateDescription(String description) throws BryanException {
+    private void validateDescription(final String description) throws BryanException {
         if (description.isEmpty()) {
             throw new BryanException("Task description cannot be empty");
         }
@@ -179,7 +187,7 @@ public class TaskManager {
      * @param index the task index
      * @throws IllegalArgumentException if the index is invalid
      */
-    private void validateIndex(int index) {
+    private void validateIndex(final int index) {
         if (index < 0 || index >= tasks.size()) {
             throw new IllegalArgumentException("Invalid task number");
         }
@@ -190,8 +198,7 @@ public class TaskManager {
      *
      * @param task the task that was added
      */
-    private void printAddConfirmation(Tasks task) {
-        System.out.printf("Added task:\n  %s\nNow you have %d tasks\n",
-                task, tasks.size());
+    private void printAddConfirmation(final Tasks task) {
+        System.out.printf("Added task:\n  %s\nNow you have %d tasks\n", task, tasks.size());
     }
 }

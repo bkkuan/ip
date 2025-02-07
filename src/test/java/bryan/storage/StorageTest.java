@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Test class for verifying the functionality of the Storage class.
  */
 class StorageTest {
+
     /**
      * Tests that tasks saved by the Storage class can be correctly loaded.
      *
@@ -26,22 +27,23 @@ class StorageTest {
     @Test
     void saveAndLoadTasks_success() throws IOException {
         // Arrange
-        Path tempFile = Files.createTempFile("tasks", ".txt");
-        Storage storage = new Storage(tempFile.toString());
-
-        ArrayList<Tasks> tasksToSave = new ArrayList<>();
+        final Path tempFile = Files.createTempFile("tasks", ".txt");
+        final Storage storage = new Storage(tempFile.toString());
+        final ArrayList<Tasks> tasksToSave = new ArrayList<>();
         tasksToSave.add(new Todo("Read book"));
         tasksToSave.add(new Deadline("Return book", LocalDate.now()));
         tasksToSave.add(new Event("Project meeting", "2023-10-01", "2023-10-02"));
 
         // Act
         storage.save(tasksToSave);
-        ArrayList<Tasks> loadedTasks = storage.load();
+        final ArrayList<Tasks> loadedTasks = storage.load();
 
         // Assert
-        assertEquals(tasksToSave.size(), loadedTasks.size(), "Number of tasks saved and loaded should match.");
+        assertEquals(tasksToSave.size(), loadedTasks.size(),
+                "Number of tasks saved and loaded should match.");
 
         // Clean up
         Files.deleteIfExists(tempFile);
     }
 }
+

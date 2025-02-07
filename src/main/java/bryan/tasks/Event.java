@@ -8,13 +8,13 @@ public class Event extends Tasks {
     protected String to;
 
     /**
-     * Constructs an Event task with the given description, start, and end times.
+     * Constructs an event task with the given description, start, and end times.
      *
      * @param information the event description
-     * @param from        the start time/date
-     * @param to          the end time/date
+     * @param from the start time/date
+     * @param to the end time/date
      */
-    public Event(String information, String from, String to) {
+    public Event(final String information, final String from, final String to) {
         super(information);
         this.from = from;
         this.to = to;
@@ -40,3 +40,4 @@ public class Event extends Tasks {
         return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
     }
 }
+
