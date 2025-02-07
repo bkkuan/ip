@@ -14,7 +14,15 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test class for verifying the functionality of the Storage class.
+ */
 class StorageTest {
+    /**
+     * Tests that tasks saved by the Storage class can be correctly loaded.
+     *
+     * @throws IOException if an I/O error occurs during testing
+     */
     @Test
     void saveAndLoadTasks_success() throws IOException {
         // Arrange

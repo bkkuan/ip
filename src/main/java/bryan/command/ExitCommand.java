@@ -4,14 +4,30 @@ import bryan.storage.Storage;
 import bryan.taskmanager.TaskManager;
 import bryan.ui.Ui;
 
+/**
+ * Command to exit the application.
+ */
 public class ExitCommand extends Command {
+
+    /**
+     * Executes the exit command by showing a goodbye message.
+     *
+     * @param taskManager the task manager
+     * @param ui          the user interface
+     * @param storage     the storage object (unused in this command)
+     */
     @Override
     public void execute(TaskManager taskManager, Ui ui, Storage storage) {
         ui.showGoodbye();
     }
 
+    /**
+     * Indicates that this command causes the application to exit.
+     *
+     * @return true
+     */
     @Override
     public boolean isExit() {
-        return true; // Indicates the program should exit
+        return true;
     }
 }

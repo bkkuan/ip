@@ -14,13 +14,26 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
+/**
+ * Storage class handles loading tasks from and saving tasks to a file.
+ */
 public class Storage {
     private final Path filePath;
 
+    /**
+     * Constructs a Storage instance for the given file name.
+     *
+     * @param fileName the path to the file where tasks are stored
+     */
     public Storage(String fileName) {
         this.filePath = Paths.get(fileName);
     }
 
+    /**
+     * Loads tasks from the storage file.
+     *
+     * @return an ArrayList of tasks loaded from the file
+     */
     public ArrayList<Tasks> load() {
         ArrayList<Tasks> tasks = new ArrayList<>();
         try {
@@ -28,23 +41,23 @@ public class Storage {
 
             for (String line : Files.readAllLines(filePath)) {
                 String[] parts = line.split(" \\| ");
-                if (parts.length < 3) continue; // Fix: Changed from <4 to <3
+                if (parts.length < 3) continue; // Minimal parts required
 
                 boolean isDone = parts[1].equals("1");
                 Tasks task = null;
                 switch (parts[0]) {
                     case "T":
-                        if (parts.length >= 3) { // Explicit check for Todo
+                        if (parts.length >= 3) {
                             task = new Todo(parts[2]);
                         }
                         break;
                     case "D":
-                        if (parts.length >= 4) { // Check for Deadline
+                        if (parts.length >= 4) {
                             task = createDeadlineFromParts(parts);
                         }
                         break;
                     case "E":
-                        if (parts.length >= 5) { // Check for Event
+                        if (parts.length >= 5) {
                             task = new Event(parts[2], parts[3], parts[4]);
                         }
                         break;
@@ -61,10 +74,15 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Creates a Deadline task from parts of a line read from the file.
+     *
+     * @param parts the string parts split by " | "
+     * @return a Deadline task
+     */
     private Deadline createDeadlineFromParts(String[] parts) {
         String dateString = parts[3];
         LocalDate date;
-
         try {
             date = LocalDate.parse(dateString);
         } catch (DateTimeParseException e1) {
@@ -76,10 +94,14 @@ public class Storage {
                 date = LocalDate.now();
             }
         }
-
         return new Deadline(parts[2], date);
     }
 
+    /**
+     * Saves the given list of tasks to the storage file.
+     *
+     * @param tasks the list of tasks to save
+     */
     public void save(ArrayList<Tasks> tasks) {
         try {
             Files.createDirectories(filePath.getParent());

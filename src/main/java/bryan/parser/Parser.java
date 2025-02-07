@@ -3,7 +3,18 @@ package bryan.parser;
 import bryan.command.*;
 import bryan.exception.BryanException;
 
+/**
+ * Parser class responsible for parsing user input and returning the appropriate Command.
+ */
 public class Parser {
+
+    /**
+     * Parses the given input string and returns a corresponding Command.
+     *
+     * @param input the user input
+     * @return the Command corresponding to the input
+     * @throws BryanException if the command is unknown or input is invalid
+     */
     public static Command parse(String input) throws BryanException {
         String commandWord = input.split(" ")[0].toLowerCase();
         switch (commandWord) {
@@ -26,3 +37,4 @@ public class Parser {
         }
     }
 }
+
