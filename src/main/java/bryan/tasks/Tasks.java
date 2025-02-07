@@ -8,11 +8,11 @@ public abstract class Tasks {
     protected boolean isDone;
 
     /**
-     * Constructs a Task with the given description.
+     * Constructs a task with the given description.
      *
      * @param information the task description
      */
-    public Tasks(String information) {
+    public Tasks(final String information) {
         this.information = information;
         this.isDone = false;
     }

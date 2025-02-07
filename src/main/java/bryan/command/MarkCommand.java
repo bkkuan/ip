@@ -11,11 +11,11 @@ public class MarkCommand extends Command {
     private final int index;
 
     /**
-     * Constructs a MarkCommand by parsing the task index from the input.
+     * Constructs a {@code MarkCommand} by parsing the task index from the input.
      *
      * @param input the command input, e.g., "mark 1"
      */
-    public MarkCommand(String input) {
+    public MarkCommand(final String input) {
         this.index = Integer.parseInt(input.split(" ")[1]) - 1;
     }
 
@@ -23,11 +23,11 @@ public class MarkCommand extends Command {
      * Executes the mark command by marking the specified task as done.
      *
      * @param taskManager the task manager
-     * @param ui          the user interface
-     * @param storage     the storage object to persist tasks
+     * @param ui the user interface
+     * @param storage the storage object to persist tasks
      */
     @Override
-    public void execute(TaskManager taskManager, Ui ui, Storage storage) {
+    public void execute(final TaskManager taskManager, final Ui ui, final Storage storage) {
         taskManager.markTask(index);
         storage.save(taskManager.getTasks());
         ui.showMessage("Marked task " + (index + 1) + " as done.");
@@ -36,11 +36,10 @@ public class MarkCommand extends Command {
     /**
      * Indicates that this command does not cause the application to exit.
      *
-     * @return false
+     * @return {@code false}
      */
     @Override
     public boolean isExit() {
         return false;
     }
 }
-

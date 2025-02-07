@@ -21,7 +21,7 @@ public class Bryan {
      *
      * @param filePath the path to the data file
      */
-    public Bryan(String filePath) {
+    public Bryan(final String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
         taskManager = new TaskManager(storage.load());
@@ -35,11 +35,11 @@ public class Bryan {
         boolean isExit = false;
         while (!isExit) {
             try {
-                String input = ui.readCommand();
-                Command command = Parser.parse(input);
+                final String input = ui.readCommand();
+                final Command command = Parser.parse(input);
                 command.execute(taskManager, ui, storage);
                 isExit = command.isExit();
-            } catch (BryanException e) {
+            } catch (final BryanException e) {
                 ui.showError(e.getMessage());
             }
         }
@@ -50,8 +50,7 @@ public class Bryan {
      *
      * @param args command-line arguments (not used)
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         new Bryan("data/bryan.txt").run();
     }
 }
-

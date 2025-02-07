@@ -36,7 +36,7 @@ public class Ui {
      *
      * @param message the error message to display
      */
-    public void showError(String message) {
+    public void showError(final String message) {
         System.out.println("Error: " + message);
     }
 
@@ -45,7 +45,7 @@ public class Ui {
      *
      * @param message the message to display
      */
-    public void showMessage(String message) {
+    public void showMessage(final String message) {
         System.out.println(message);
     }
 }

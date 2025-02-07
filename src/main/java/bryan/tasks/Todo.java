@@ -1,16 +1,16 @@
 package bryan.tasks;
 
 /**
- * Represents a Todo task.
+ * Represents a todo task.
  */
 public class Todo extends Tasks {
 
     /**
-     * Constructs a Todo task with the given description.
+     * Constructs a todo task with the given description.
      *
      * @param information the task description
      */
-    public Todo(String information) {
+    public Todo(final String information) {
         super(information);
     }
 

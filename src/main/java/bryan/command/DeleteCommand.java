@@ -11,11 +11,11 @@ public class DeleteCommand extends Command {
     private final int index;
 
     /**
-     * Constructs a DeleteCommand by parsing the input to determine which task to delete.
+     * Constructs a {@code DeleteCommand} by parsing the input to determine which task to delete.
      *
      * @param input the command input, e.g., "delete 2"
      */
-    public DeleteCommand(String input) {
+    public DeleteCommand(final String input) {
         this.index = Integer.parseInt(input.split(" ")[1]) - 1;
     }
 
@@ -23,11 +23,11 @@ public class DeleteCommand extends Command {
      * Executes the delete command by removing the specified task.
      *
      * @param taskManager the task manager
-     * @param ui          the user interface
-     * @param storage     the storage object to persist tasks
+     * @param ui the user interface
+     * @param storage the storage object to persist tasks
      */
     @Override
-    public void execute(TaskManager taskManager, Ui ui, Storage storage) {
+    public void execute(final TaskManager taskManager, final Ui ui, final Storage storage) {
         taskManager.deleteTask(index);
         storage.save(taskManager.getTasks());
         ui.showMessage("Deleted task " + (index + 1) + ".");
@@ -36,7 +36,7 @@ public class DeleteCommand extends Command {
     /**
      * Indicates that this command does not cause the application to exit.
      *
-     * @return false
+     * @return {@code false}
      */
     @Override
     public boolean isExit() {

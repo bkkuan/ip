@@ -6,11 +6,11 @@ package bryan.exception;
 public class BryanException extends Exception {
 
     /**
-     * Constructs a new BryanException with the specified detail message.
+     * Constructs a new {@code BryanException} with the specified detail message.
      *
      * @param message the detail message
      */
-    public BryanException(String message) {
+    public BryanException(final String message) {
         super(message);
     }
 }

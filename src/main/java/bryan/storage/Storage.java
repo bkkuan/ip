@@ -25,25 +25,27 @@ public class Storage {
      *
      * @param fileName the path to the file where tasks are stored
      */
-    public Storage(String fileName) {
+    public Storage(final String fileName) {
         this.filePath = Paths.get(fileName);
     }
 
     /**
      * Loads tasks from the storage file.
      *
-     * @return an ArrayList of tasks loaded from the file
+     * @return an {@code ArrayList} of tasks loaded from the file
      */
     public ArrayList<Tasks> load() {
-        ArrayList<Tasks> tasks = new ArrayList<>();
+        final ArrayList<Tasks> tasks = new ArrayList<>();
         try {
-            if (!Files.exists(filePath)) return tasks;
-
-            for (String line : Files.readAllLines(filePath)) {
-                String[] parts = line.split(" \\| ");
-                if (parts.length < 3) continue; // Minimal parts required
-
-                boolean isDone = parts[1].equals("1");
+            if (!Files.exists(filePath)) {
+                return tasks;
+            }
+            for (final String line : Files.readAllLines(filePath)) {
+                final String[] parts = line.split(" \\| ");
+                if (parts.length < 3) {
+                    continue; // Minimal parts required
+                }
+                final boolean isDone = parts[1].equals("1");
                 Tasks task = null;
                 switch (parts[0]) {
                     case "T":
@@ -61,35 +63,39 @@ public class Storage {
                             task = new Event(parts[2], parts[3], parts[4]);
                         }
                         break;
+                    default:
+                        break;
                 }
-
                 if (task != null) {
-                    if (isDone) task.taskDone();
+                    if (isDone) {
+                        task.taskDone();
+                    }
                     tasks.add(task);
                 }
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             System.out.println("Error loading tasks.");
         }
         return tasks;
     }
 
     /**
-     * Creates a Deadline task from parts of a line read from the file.
+     * Creates a {@code Deadline} task from parts of a line read from the file.
      *
      * @param parts the string parts split by " | "
-     * @return a Deadline task
+     * @return a {@code Deadline} task
      */
-    private Deadline createDeadlineFromParts(String[] parts) {
-        String dateString = parts[3];
+    private Deadline createDeadlineFromParts(final String[] parts) {
+        final String dateString = parts[3];
         LocalDate date;
         try {
             date = LocalDate.parse(dateString);
-        } catch (DateTimeParseException e1) {
+        } catch (final DateTimeParseException e1) {
             try {
-                DateTimeFormatter oldFormat = DateTimeFormatter.ofPattern("MMMM d['th']['st']['nd']['rd']");
+                final DateTimeFormatter oldFormat =
+                        DateTimeFormatter.ofPattern("MMMM d['th']['st']['nd']['rd']");
                 date = LocalDate.parse(dateString, oldFormat);
-            } catch (DateTimeParseException e2) {
+            } catch (final DateTimeParseException e2) {
                 System.out.println("Invalid date format: " + dateString + ". Using today's date.");
                 date = LocalDate.now();
             }
@@ -102,15 +108,15 @@ public class Storage {
      *
      * @param tasks the list of tasks to save
      */
-    public void save(ArrayList<Tasks> tasks) {
+    public void save(final ArrayList<Tasks> tasks) {
         try {
             Files.createDirectories(filePath.getParent());
-            ArrayList<String> lines = new ArrayList<>();
-            for (Tasks task : tasks) {
+            final ArrayList<String> lines = new ArrayList<>();
+            for (final Tasks task : tasks) {
                 lines.add(task.toFileFormat());
             }
             Files.write(filePath, lines);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             System.out.println("Error saving tasks: " + e.getMessage());
         }
     }
