@@ -1,3 +1,5 @@
+package seedu.bryan;
+
 import bryan.command.Command;
 import bryan.exception.BryanException;
 import bryan.parser.Parser;
@@ -5,7 +7,6 @@ import bryan.storage.Storage;
 import bryan.taskmanager.TaskManager;
 import bryan.ui.Ui;
 
-;
 
 public class Bryan {
     private final Storage storage;

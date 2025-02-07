@@ -1,6 +1,6 @@
 package bryan.tasks;
 
-public class Tasks {
+public abstract class Tasks {
     protected String information;
     protected boolean isDone;
 
@@ -12,17 +12,17 @@ public class Tasks {
     public void taskDone() {
         this.isDone = true;
     }
+
     //tasks unmarked or not done
     public void taskNotDone() {
         this.isDone = false;
     }
 
+    public abstract String toFileFormat();
+
+
     public String getStatusIcon() {
         return isDone ? "[X]" : "[ ]";
-    }
-
-    public String toFileFormat() {
-        throw new UnsupportedOperationException("toFileFormat not implemented");
     }
 
     @Override

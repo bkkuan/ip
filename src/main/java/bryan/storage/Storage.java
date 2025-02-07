@@ -28,19 +28,25 @@ public class Storage {
 
             for (String line : Files.readAllLines(filePath)) {
                 String[] parts = line.split(" \\| ");
-                if (parts.length < 4) continue;
+                if (parts.length < 3) continue; // Fix: Changed from <4 to <3
 
                 boolean isDone = parts[1].equals("1");
                 Tasks task = null;
                 switch (parts[0]) {
                     case "T":
-                        task = new Todo(parts[2]);
+                        if (parts.length >= 3) { // Explicit check for Todo
+                            task = new Todo(parts[2]);
+                        }
                         break;
                     case "D":
-                        if (parts.length >= 4) task = createDeadlineFromParts(parts);
+                        if (parts.length >= 4) { // Check for Deadline
+                            task = createDeadlineFromParts(parts);
+                        }
                         break;
                     case "E":
-                        if (parts.length >= 5) task = new Event(parts[2], parts[3], parts[4]);
+                        if (parts.length >= 5) { // Check for Event
+                            task = new Event(parts[2], parts[3], parts[4]);
+                        }
                         break;
                 }
 
