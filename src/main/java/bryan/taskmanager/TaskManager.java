@@ -201,4 +201,22 @@ public class TaskManager {
     private void printAddConfirmation(final Tasks task) {
         System.out.printf("Added task:\n  %s\nNow you have %d tasks\n", task, tasks.size());
     }
+
+    /**
+     * Finds tasks that contain the given keyword in their description.
+     *
+     * @param keyword the search keyword
+     * @return an {@code ArrayList} of tasks whose descriptions contain the keyword
+     */
+    public ArrayList<Tasks> findTasks(final String keyword) {
+        final ArrayList<Tasks> matchingTasks = new ArrayList<>();
+        for (final Tasks task : tasks) {
+            // Use toString() or a dedicated getter if available.
+            if (task.toString().toLowerCase().contains(keyword.toLowerCase())) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
+    }
+
 }

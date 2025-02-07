@@ -28,6 +28,8 @@ public class Parser {
                 return new UnmarkCommand(input);
             case "delete":
                 return new DeleteCommand(input);
+            case "find":
+                return new FindCommand(input);
             case "todo":
             case "deadline":
             case "event":
