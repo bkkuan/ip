@@ -1,5 +1,11 @@
+package seedu.bryan;
+
+import java.io.IOException;
+import java.util.Collections;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -8,70 +14,65 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
- * Represents a custom dialog box containing a text label and an image.
- * <p>
- * This control is designed to be reused whenever a dialog (or chat message)
- * needs to be displayed in the application.
- * </p>
+ * Represents a dialog box consisting of an ImageView to represent the speaker's face
+ * and a label containing text from the speaker.
  */
 public class DialogBox extends HBox {
-
-    private Label text;
+    @FXML
+    private Label dialog;
+    @FXML
     private ImageView displayPicture;
 
     /**
      * Constructs a DialogBox with the specified text and image.
      *
-     * @param s the text to be displayed in the dialog.
-     * @param i the image to be displayed alongside the text.
+     * @param text the text to be displayed.
+     * @param img the image to be displayed.
      */
-    public DialogBox(String s, Image i) {
-        text = new Label(s);
-        displayPicture = new ImageView(i);
-
-        // Styling the dialog box.
-        text.setWrapText(true);
-        displayPicture.setFitWidth(100.0);
-        displayPicture.setFitHeight(100.0);
-        this.setAlignment(Pos.TOP_RIGHT);
-
-        // Add the text and image to the HBox.
-        this.getChildren().addAll(text, displayPicture);
+    private DialogBox(String text, Image img) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
+            fxmlLoader.setController(this);
+            fxmlLoader.setRoot(this);
+            fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        dialog.setText(text);
+        displayPicture.setImage(img);
     }
 
     /**
-     * Flips the dialog box such that the ImageView is on the left and the text is on the right.
-     * This is used to differentiate between user input and Duke's responses.
+     * Flips the dialog box such that the ImageView is on the left and the text on the right.
      */
     private void flip() {
-        this.setAlignment(Pos.TOP_LEFT);
         ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
-        FXCollections.reverse(tmp);
+        Collections.reverse(tmp);
         this.getChildren().setAll(tmp);
+        setAlignment(Pos.TOP_LEFT);
     }
 
     /**
      * Returns a dialog box for user input.
      *
-     * @param s the text to be displayed in the dialog.
-     * @param i the image to be displayed alongside the text.
+     * @param text the text to be displayed.
+     * @param img the image to be displayed.
      * @return a DialogBox instance representing user input.
      */
-    public static DialogBox getUserDialog(String s, Image i) {
-        return new DialogBox(s, i);
+    public static DialogBox getUserDialog(String text, Image img) {
+        return new DialogBox(text, img);
     }
 
     /**
-     * Returns a dialog box for Duke's response.
+     * Returns a dialog box for Bryan's response.
      *
-     * @param s the text to be displayed in the dialog.
-     * @param i the image to be displayed alongside the text.
-     * @return a DialogBox instance representing Duke's response.
+     * @param text the text to be displayed.
+     * @param img the image to be displayed.
+     * @return a DialogBox instance representing Bryan's response.
      */
-    public static DialogBox getBryanDialog(String s, Image i) {
-        DialogBox db = new DialogBox(s, i);
+    public static DialogBox getBryanDialog(String text, Image img) {
+        DialogBox db = new DialogBox(text, img);
         db.flip();
         return db;
     }
 }
-

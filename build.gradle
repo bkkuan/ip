@@ -27,6 +27,8 @@ dependencies {
     implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'linux'
     implementation 'org.openjfx:javafx-controls:17'
     implementation 'org.openjfx:javafx-graphics:17'
+    implementation 'org.openjfx:javafx-controls:17'
+    implementation 'org.openjfx:javafx-fxml:17'
 }
 
 test {
@@ -34,8 +36,11 @@ test {
 }
 
 application {
-    mainClass = 'seedu.bryan.Bryan'
-    mainClass.set("Launcher")
+    //mainClass = 'seedu.bryan.Bryan'
+    //mainClass.set("Launcher")
+    //mainClass.set("seedu.bryan.Main")
+    mainClass.set("seedu.bryan.Main")
+    
 }
 
 shadowJar {
@@ -46,4 +51,9 @@ shadowJar {
 
 run {
     standardInput = System.in
+    
+    jvmArgs = [
+        '--module-path', classpath.asPath,
+        '--add-modules', 'javafx.controls,javafx.fxml'
+    ]
 }

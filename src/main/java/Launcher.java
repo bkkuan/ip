@@ -1,10 +1,10 @@
+package seedu.bryan;
+
 import javafx.application.Application;
 
 /**
  * Launcher class for the Bryan application.
- * <p>
  * Contains the main method that launches the JavaFX application.
- * </p>
  */
 public class Launcher {
 
