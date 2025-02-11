@@ -1,8 +1,9 @@
-package bryan.command;
+package seedu.bryan.command;
 
+import bryan.command.Command;
+import bryan.storage.Storage;
 import bryan.taskmanager.TaskManager;
 import bryan.ui.Ui;
-import bryan.storage.Storage;
 
 /**
  * Command that lists all tasks.
@@ -10,21 +11,22 @@ import bryan.storage.Storage;
 public class ListCommand extends Command {
 
     /**
-     * Executes the list command by printing all tasks.
+     * Executes the list command by returning all tasks.
      *
-     * @param taskManager the task manager containing tasks
-     * @param ui the user interface for output
-     * @param storage the storage object (unused in this command)
+     * @param taskManager the task manager containing tasks.
+     * @param ui the user interface for output.
+     * @param storage the storage object (unused in this command).
      */
     @Override
     public void execute(final TaskManager taskManager, final Ui ui, final Storage storage) {
-        taskManager.printTasks();
+        String msg = taskManager.listTasks();
+        ui.showMessage(msg);
     }
 
     /**
      * Indicates that this command does not cause the application to exit.
      *
-     * @return {@code false}
+     * @return {@code false}.
      */
     @Override
     public boolean isExit() {

@@ -1,6 +1,6 @@
 package bryan.parser;
 
-import bryan.command.*;
+import bryan.command.Command;
 import bryan.exception.BryanException;
 
 /**
@@ -11,31 +11,31 @@ public class Parser {
     /**
      * Parses the given input string and returns a corresponding command.
      *
-     * @param input the user input
-     * @return the command corresponding to the input
-     * @throws BryanException if the command is unknown or input is invalid
+     * @param input the user input.
+     * @return the command corresponding to the input.
+     * @throws BryanException if the command is unknown or input is invalid.
      */
     public static Command parse(final String input) throws BryanException {
         final String commandWord = input.split(" ")[0].toLowerCase();
         switch (commandWord) {
             case "bye":
-                return new ExitCommand();
+                return new seedu.bryan.command.ExitCommand();
             case "list":
-                return new ListCommand();
+                return new seedu.bryan.command.ListCommand();
             case "mark":
-                return new MarkCommand(input);
+                return new seedu.bryan.command.MarkCommand(input);
             case "unmark":
-                return new UnmarkCommand(input);
+                return new seedu.bryan.command.UnmarkCommand(input);
             case "delete":
-                return new DeleteCommand(input);
+                return new seedu.bryan.command.DeleteCommand(input);
             case "find":
-                return new FindCommand(input);
+                return new seedu.bryan.command.FindCommand(input);
             case "todo":
             case "deadline":
             case "event":
-                return new AddCommand(input);
+                return new seedu.bryan.command.AddCommand(input);
             default:
-                throw new BryanException("Unknown command");
+                throw new BryanException("I'm not sure what you mean. May i know what do you want to do?");
         }
     }
 }

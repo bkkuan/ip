@@ -13,10 +13,10 @@ public abstract class Command {
     /**
      * Executes the command with the given task manager, UI, and storage.
      *
-     * @param taskManager the task manager containing the tasks
-     * @param ui the user interface for displaying messages
-     * @param storage the storage to save and load tasks
-     * @throws BryanException if there is an error during execution
+     * @param taskManager the task manager containing the tasks.
+     * @param ui the user interface for displaying messages.
+     * @param storage the storage to save and load tasks.
+     * @throws BryanException if there is an error during execution.
      */
     public abstract void execute(final TaskManager taskManager, final Ui ui,
                                  final Storage storage) throws BryanException;
@@ -24,7 +24,7 @@ public abstract class Command {
     /**
      * Indicates whether the command should cause the application to exit.
      *
-     * @return {@code true} if the command is an exit command, {@code false} otherwise
+     * @return {@code true} if the command is an exit command, {@code false} otherwise.
      */
     public abstract boolean isExit();
 }
