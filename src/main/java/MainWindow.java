@@ -1,5 +1,6 @@
 package seedu.bryan;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -7,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 /**
  * Controller for the main GUI.
@@ -15,10 +17,13 @@ public class MainWindow extends AnchorPane {
 
     @FXML
     private ScrollPane scrollPane;
+
     @FXML
     private VBox dialogContainer;
+
     @FXML
     private TextField userInput;
+
     @FXML
     private Button sendButton;
 
@@ -32,31 +37,41 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     public void initialize() {
-        // Bind the vertical scroll value of the ScrollPane to the dialog container's height
+        // Bind the scroll pane's vertical value to the dialog container's height.
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
     /**
-     * Injects the Bryan instance into the controller.
+     * Injects the Bryan instance into this controller.
      *
      * @param b the Bryan instance.
      */
     public void setBryan(seedu.bryan.Bryan b) {
-        bryan = b;
+        this.bryan = b;
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Bryan's reply,
-     * then appends them to the dialog container. Clears the user input after processing.
+     * Handles user input by processing the command via Bryan and creating dialog boxes for both
+     * the user input and Bryan's response.
+     * If the user types "bye", the application exits after a short delay.
      */
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
+        // Create a dialog for the user's input.
+        dialogContainer.getChildren().add(seedu.bryan.DialogBox.getUserDialog(input, userImage));
+
         String response = bryan.getResponse(input);
-        dialogContainer.getChildren().addAll(
-                seedu.bryan.DialogBox.getUserDialog(input, userImage),
-                seedu.bryan.DialogBox.getBryanDialog(response, bryanImage)
-        );
+        // Create a dialog for Bryan's response.
+        dialogContainer.getChildren().add(seedu.bryan.DialogBox.getBryanDialog(response, bryanImage));
+
         userInput.clear();
+
+        // If the command is "bye", schedule application exit.
+        if (input.trim().equalsIgnoreCase("bye")) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            delay.setOnFinished(event -> System.exit(0));
+            delay.play();
+        }
     }
 }

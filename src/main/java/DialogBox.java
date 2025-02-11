@@ -1,7 +1,5 @@
 package seedu.bryan;
 
-import java.io.IOException;
-import java.util.Collections;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,6 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import java.io.IOException;
+import java.util.Collections;
+
 /**
  * Represents a dialog box consisting of an ImageView to represent the speaker's face
  * and a label containing text from the speaker.
@@ -20,18 +21,19 @@ import javafx.scene.layout.HBox;
 public class DialogBox extends HBox {
     @FXML
     private Label dialog;
+
     @FXML
     private ImageView displayPicture;
 
     /**
      * Constructs a DialogBox with the specified text and image.
      *
-     * @param text the text to be displayed.
-     * @param img the image to be displayed.
+     * @param text the text to display.
+     * @param img the image to display.
      */
     private DialogBox(String text, Image img) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(seedu.bryan.MainWindow.class.getResource("/view/DialogBox.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
@@ -43,7 +45,7 @@ public class DialogBox extends HBox {
     }
 
     /**
-     * Flips the dialog box such that the ImageView is on the left and the text on the right.
+     * Flips the dialog box such that the ImageView is on the left and the text is on the right.
      */
     private void flip() {
         ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
@@ -55,8 +57,8 @@ public class DialogBox extends HBox {
     /**
      * Returns a dialog box for user input.
      *
-     * @param text the text to be displayed.
-     * @param img the image to be displayed.
+     * @param text the text to display.
+     * @param img the image to display.
      * @return a DialogBox instance representing user input.
      */
     public static DialogBox getUserDialog(String text, Image img) {
@@ -66,8 +68,8 @@ public class DialogBox extends HBox {
     /**
      * Returns a dialog box for Bryan's response.
      *
-     * @param text the text to be displayed.
-     * @param img the image to be displayed.
+     * @param text the text to display.
+     * @param img the image to display.
      * @return a DialogBox instance representing Bryan's response.
      */
     public static DialogBox getBryanDialog(String text, Image img) {

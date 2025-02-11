@@ -1,18 +1,20 @@
 package seedu.bryan;
 
-import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 /**
  * A GUI for Bryan using FXML.
  */
 public class Main extends Application {
 
-    private final Bryan bryan = new Bryan();
+    // Create the backend Bryan instance using a storage file.
+    private final seedu.bryan.Bryan bryan = new seedu.bryan.Bryan("data/bryan.txt");
 
     /**
      * Starts the JavaFX application.
@@ -27,7 +29,7 @@ public class Main extends Application {
             Scene scene = new Scene(ap);
             stage.setScene(scene);
             // Inject the Bryan instance into the controller.
-            fxmlLoader.<MainWindow>getController().setBryan(bryan);
+            fxmlLoader.<seedu.bryan.MainWindow>getController().setBryan(bryan);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,9 +37,9 @@ public class Main extends Application {
     }
 
     /**
-     * The main entry point of the application.
+     * The main entry point for the application.
      *
-     * @param args the command line arguments.
+     * @param args command line arguments.
      */
     public static void main(String[] args) {
         launch(args);

@@ -1,51 +1,30 @@
 package bryan.ui;
 
-import java.util.Scanner;
-
 /**
- * The Ui class handles user interactions and displays messages.
+ * Interface for the user interface of Bryan.
  */
-public class Ui {
-    private final Scanner scanner = new Scanner(System.in);
-
+public interface Ui {
     /**
-     * Displays a welcome message.
-     */
-    public void showWelcome() {
-        System.out.println("Hello! I'm Bryan, your trustworthy support\nWhat can I do for you?");
-    }
-
-    /**
-     * Displays a goodbye message.
-     */
-    public void showGoodbye() {
-        System.out.println("Bye. Hope to see you again soon!");
-    }
-
-    /**
-     * Reads a command from the user.
+     * Displays a general message.
      *
-     * @return the trimmed command string entered by the user
+     * @param message the message to display.
      */
-    public String readCommand() {
-        return scanner.nextLine().trim();
-    }
+    void showMessage(String message);
 
     /**
      * Displays an error message.
      *
-     * @param message the error message to display
+     * @param message the error message to display.
      */
-    public void showError(final String message) {
-        System.out.println("Error: " + message);
-    }
+    void showError(String message);
 
     /**
-     * Displays a general message.
-     *
-     * @param message the message to display
+     * Displays a goodbye message.
      */
-    public void showMessage(final String message) {
-        System.out.println(message);
-    }
+    void showGoodbye();
+
+    /**
+     * Displays a welcome message.
+     */
+    void showWelcome();
 }
