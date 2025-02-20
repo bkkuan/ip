@@ -69,8 +69,4 @@ public class Deadline extends Tasks {
      *
      * @param newBy the new due date.
      */
-    public void setBy(LocalDate newBy) {
-        assert newBy != null : "newBy must not be null";
-        this.by = newBy;
-    }
 }
