@@ -61,6 +61,7 @@ public class TaskManager {
      * @throws BryanException if the input does not specify a valid task.
      */
     private Tasks createTask(final String input) throws BryanException {
+        assert input != null && !input.isEmpty() : "Input to createTask() should not be null or empty";
         if (input.startsWith("todo ")) {
             return createTodo(input);
         }
@@ -204,6 +205,7 @@ public class TaskManager {
      * @throws IllegalArgumentException if the index is invalid.
      */
     private void validateIndex(final int index) {
+        assert index >= 0 && index < tasks.size() : "Index out of bounds: " + index;
         if (index < 0 || index >= tasks.size()) {
             throw new IllegalArgumentException("Invalid task number");
         }
