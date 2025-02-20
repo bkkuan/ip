@@ -49,6 +49,7 @@ public class TaskManager {
      * @throws BryanException if the task description is invalid.
      */
     public String addTask(final String input) throws BryanException {
+        assert tasks != null : "Task cannot be null";
         final Tasks task = createTask(input);
         tasks.add(task);
         return printAddConfirmation(task);
