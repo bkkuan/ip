@@ -28,8 +28,7 @@ public class Deadline extends Tasks {
      * @param dateString the due date in string format
      * @throws DateTimeParseException if the date string is invalid
      */
-    public Deadline(final String information, final String dateString)
-            throws DateTimeParseException {
+    public Deadline(final String information, final String dateString) throws DateTimeParseException {
         super(information);
         this.by = LocalDate.parse(dateString);
     }
@@ -53,5 +52,15 @@ public class Deadline extends Tasks {
     public String toString() {
         return "[D]" + super.toString() + " (by: "
                 + by.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")";
+    }
+
+    /**
+     * Sets a new due date for this deadline.
+     *
+     * @param newBy the new due date.
+     */
+    public void setBy(LocalDate newBy) {
+        assert newBy != null : "newBy must not be null";
+        this.by = newBy;
     }
 }

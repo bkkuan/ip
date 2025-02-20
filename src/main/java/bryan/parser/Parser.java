@@ -16,6 +16,9 @@ public class Parser {
      * @throws BryanException if the command is unknown or input is invalid.
      */
     public static Command parse(final String input) throws BryanException {
+        // Assert that input is not null or empty.
+        assert input != null && !input.isEmpty() : "Input should not be null or empty";
+        
         final String commandWord = input.split(" ")[0].toLowerCase();
         switch (commandWord) {
             case "bye":
