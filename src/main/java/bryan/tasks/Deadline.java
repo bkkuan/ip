@@ -45,6 +45,16 @@ public class Deadline extends Tasks {
     }
 
     /**
+     * Sets a new due date for this deadline.
+     *
+     * @param newBy the new due date.
+     */
+    public void setBy(LocalDate newBy) {
+        assert newBy != null : "newBy must not be null";
+        this.by = newBy;
+    }
+
+    /**
      * Returns a string representation of the deadline.
      *
      * @return a formatted string with task details and due date

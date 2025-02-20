@@ -5,6 +5,8 @@ import bryan.tasks.Deadline;
 import bryan.tasks.Event;
 import bryan.tasks.Tasks;
 import bryan.tasks.Todo;
+
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
@@ -53,6 +55,19 @@ public class TaskManager {
     }
 
     /**
+     * Formats a status change message for a task.
+     *
+     * @param index  the zero-based index of the task in the task list
+     * @param task   the task whose status was updated
+     * @param marked {@code true} if the task is marked as done, {@code false} if unmarked
+     * @return a formatted string message indicating the updated status of the task
+     */
+    private String formatStatusChangeMessage(final int index, final Tasks task, final boolean marked) {
+        String status = marked ? "done" : "not done";
+        return "Marked task " + (index + 1) + " as " + status + ":\n  " + task.toString();
+    }
+
+    /**
      * Creates a task from the input string.
      *
      * @param input the input string.
@@ -60,6 +75,7 @@ public class TaskManager {
      * @throws BryanException if the input does not specify a valid task.
      */
     private Tasks createTask(final String input) throws BryanException {
+        assert input != null : "Input to createTask() should not be null";
         if (input.startsWith("todo ")) {
             return createTodo(input);
         }
@@ -157,7 +173,7 @@ public class TaskManager {
     public String markTask(final int index) {
         validateIndex(index);
         tasks.get(index).taskDone();
-        return "Marked task " + (index + 1) + " as done:\n  " + tasks.get(index).toString();
+        return formatStatusChangeMessage(index, tasks.get(index), true);
     }
 
     /**
@@ -169,7 +185,7 @@ public class TaskManager {
     public String unmarkTask(final int index) {
         validateIndex(index);
         tasks.get(index).taskNotDone();
-        return "Marked task " + (index + 1) + " as not done:\n  " + tasks.get(index).toString();
+        return formatStatusChangeMessage(index, tasks.get(index), false);
     }
 
     /**
@@ -203,8 +219,33 @@ public class TaskManager {
      * @throws IllegalArgumentException if the index is invalid.
      */
     private void validateIndex(final int index) {
+        // Assert that the index is within the bounds of the tasks list.
+        assert index >= 0 && index < tasks.size() : "Index out of bounds: " + index;
         if (index < 0 || index >= tasks.size()) {
             throw new IllegalArgumentException("Invalid task number");
+        }
+    }
+
+    /**
+     * Snoozes a deadline task by updating its due date.
+     *
+     * @param index the index of the task to snooze.
+     * @param newDateString the new due date in yyyy-mm-dd format.
+     * @return a confirmation message.
+     * @throws BryanException if the task is not a deadline or the date format is invalid.
+     */
+    public String snoozeTask(final int index, final String newDateString) throws BryanException {
+        validateIndex(index);
+        Tasks task = tasks.get(index);
+        if (!(task instanceof bryan.tasks.Deadline)) {
+            throw new BryanException("Only deadline tasks can be snoozed.");
+        }
+        try {
+            LocalDate newDate = LocalDate.parse(newDateString);
+            ((bryan.tasks.Deadline) task).setBy(newDate);
+            return "Snoozed task " + (index + 1) + " to new due date: " + newDate.toString();
+        } catch (DateTimeParseException e) {
+            throw new BryanException("Invalid date format. Use yyyy-mm-dd");
         }
     }
 
