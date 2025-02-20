@@ -9,9 +9,9 @@ import javafx.application.Application;
 public class Launcher {
 
     /**
-     * The main entry point of the application.
+     * Launches the JavaFX application from the command line.
      *
-     * @param args the command line arguments.
+     * @param args the command-line arguments passed to the application
      */
     public static void main(String[] args) {
         Application.launch(Main.class, args);

@@ -37,9 +37,9 @@ public class Main extends Application {
     }
 
     /**
-     * The main entry point for the application.
+     * Serves as the main entry point for the application.
      *
-     * @param args command line arguments.
+     * @param args Command-line arguments passed to the program.
      */
     public static void main(String[] args) {
         launch(args);
