@@ -159,7 +159,7 @@ public class TaskManager {
     public String markTask(final int index) {
         validateIndex(index);
         tasks.get(index).taskDone();
-        return "Marked task " + (index + 1) + " as done:\n  " + tasks.get(index).toString();
+        return formatStatusChangeMessage(index, tasks.get(index), true);
     }
 
     /**
@@ -171,7 +171,7 @@ public class TaskManager {
     public String unmarkTask(final int index) {
         validateIndex(index);
         tasks.get(index).taskNotDone();
-        return "Marked task " + (index + 1) + " as not done:\n  " + tasks.get(index).toString();
+        return formatStatusChangeMessage(index, tasks.get(index), false);
     }
 
     /**
@@ -209,6 +209,19 @@ public class TaskManager {
         if (index < 0 || index >= tasks.size()) {
             throw new IllegalArgumentException("Invalid task number");
         }
+    }
+
+    /**
+     * Formats a status change message for a task.
+     *
+     * @param index  the zero-based index of the task in the task list
+     * @param task   the task whose status was updated
+     * @param marked {@code true} if the task is marked as done, {@code false} if unmarked
+     * @return a formatted string message indicating the updated status of the task
+     */
+    private String formatStatusChangeMessage(final int index, final Tasks task, final boolean marked) {
+        String status = marked ? "done" : "not done";
+        return "Marked task " + (index + 1) + " as " + status + ":\n  " + task.toString();
     }
 
     /**
