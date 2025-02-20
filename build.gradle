@@ -44,9 +44,13 @@ application {
 }
 
 shadowJar {
-    archiveBaseName = "Bryan"
-    archiveVersion = "0.1.0"
-    archiveClassifier = null
+    //archiveBaseName = "Bryan"
+    //archiveVersion = "0.1.0"
+    //archiveClassifier = null
+    archiveBaseName.set("BryanChatbot")
+    archiveClassifier.set("")
+    archiveVersion.set("0.1.0")
+    mergeServiceFiles()
 }
 
 run {
