@@ -1,9 +1,8 @@
-T | 1 | sleep
-T | 1 | sleep
-T | 0 | sleep
-T | 0 | get a gf
-T | 0 | sleep
-T | 0 | sleep
-T | 0 | sleep
-T | 0 | sleep
-T | 0 | study
+T | 1 | study
+T | 0 | use bumble
+T | 0 | reflect life
+T | 0 | reflect again
+T | 0 | stare wall
+T | 0 | rest
+D | 0 | finish | 2025-02-22
+E | 0 | ss | START | End

@@ -47,7 +47,7 @@ shadowJar {
     //archiveBaseName = "Bryan"
     //archiveVersion = "0.1.0"
     //archiveClassifier = null
-    archiveBaseName.set("BryanChatbot")
+    archiveBaseName.set("Bryan")
     archiveClassifier.set("")
     archiveVersion.set("0.1.0")
     mergeServiceFiles()

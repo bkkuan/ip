@@ -27,6 +27,7 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
+            stage.setTitle("Bryan");
             stage.setScene(scene);
             // Inject the Bryan instance into the controller.
             fxmlLoader.<seedu.bryan.MainWindow>getController().setBryan(bryan);
