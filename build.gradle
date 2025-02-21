@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 repositories {
@@ -36,11 +37,12 @@ test {
 }
 
 application {
-    //mainClass = 'seedu.bryan.Bryan'
-    //mainClass.set("Launcher")
-    //mainClass.set("seedu.bryan.Main")
-    mainClass.set("seedu.bryan.Main")
-    
+    mainClassName = 'seedu.bryan.Launcher'
+}
+
+javafx {
+    version = "17"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 shadowJar {
