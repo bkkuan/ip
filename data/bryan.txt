@@ -1,8 +1,11 @@
-T | 1 | study
+T | 0 | study
 T | 0 | use bumble
 T | 0 | reflect life
 T | 0 | reflect again
 T | 0 | stare wall
 T | 0 | rest
-D | 0 | finish | 2025-02-22
+D | 0 | finish | 2025-02-23
 E | 0 | ss | START | End
+T | 0 | sleep
+D | 0 | fins | 2025-02-22
+E | 1 | ssss | Sta | e

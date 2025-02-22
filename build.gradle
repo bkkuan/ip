@@ -3,6 +3,7 @@ plugins {
     id 'application'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
     id 'org.openjfx.javafxplugin' version '0.0.13'
+
 }
 
 repositories {
@@ -10,8 +11,6 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
     String javaFxVersion = '17.0.7'
 
     implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'win'
@@ -26,38 +25,43 @@ dependencies {
     implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'win'
     implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'mac'
     implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'linux'
-    implementation 'org.openjfx:javafx-controls:17'
-    implementation 'org.openjfx:javafx-graphics:17'
-    implementation 'org.openjfx:javafx-controls:17'
-    implementation 'org.openjfx:javafx-fxml:17'
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+
 }
 
 test {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+
+        showExceptions true
+        exceptionFormat "full"
+        showCauses true
+        showStackTraces true
+        showStandardStreams = false
+    }
 }
 
 application {
     mainClassName = 'seedu.bryan.Launcher'
 }
 
-javafx {
-    version = "17"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
-}
-
 shadowJar {
-    //archiveBaseName = "Bryan"
-    //archiveVersion = "0.1.0"
-    //archiveClassifier = null
     archiveBaseName.set("Bryan")
     archiveClassifier.set("")
-    archiveVersion.set("0.1.0")
+    archiveVersion.set("0.2")
     mergeServiceFiles()
+    manifest {
+        attributes 'Main-Class': 'seedu.bryan.Launcher'
+    }
 }
 
 run {
     standardInput = System.in
-    
     jvmArgs = [
         '--module-path', classpath.asPath,
         '--add-modules', 'javafx.controls,javafx.fxml'

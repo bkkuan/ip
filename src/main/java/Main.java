@@ -36,13 +36,4 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Serves as the main entry point for the application.
-     *
-     * @param args Command-line arguments passed to the program.
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
